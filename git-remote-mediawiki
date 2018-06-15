@@ -505,10 +505,12 @@ sub download_mw_mediafile {
 		$response->decode();
 		return $response->content();
 	} else {
-		print {*STDERR} "Error downloading mediafile from :\n";
-		print {*STDERR} "URL: ${download_url}\n";
-		print {*STDERR} 'Server response: ' . $response->code . q{ } . $response->message . "\n";
-		exit 1;
+		my $errorMessage = "";
+		$errorMessage .= "Error downloading mediafile from :\n";
+		$errorMessage .= "URL: ${download_url}\n";
+		$errorMessage .= 'Server response: ' . $response->code . q{ } . $response->message . "\n";
+		print {*STDERR} "${errorMessage}";
+		return $errorMessage; # return error message instead of missing content
 	}
 }
 
